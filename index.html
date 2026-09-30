@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام تسجيل الحضور - مهندس سبراني | Cyber Engineer</title>
+  
+  <!-- Google Fonts: Cairo & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Responsive Silhouette Background Layer -->
+  <div class="site-background" id="site-background"></div>
+
+  <!-- Top Deep Blue Navigation Header -->
+  <header class="top-header">
+    <div class="header-container">
+      
+      <!-- Top Right: Menu Dropdown Button -->
+      <div class="header-menu-container">
+        <button id="header-menu-btn" class="header-menu-btn" aria-label="القائمة">
+          <i data-lucide="menu" class="menu-icon"></i>
+        </button>
+        <!-- Dropdown Menu -->
+        <div id="header-dropdown" class="header-dropdown">
+          <button id="dropdown-btn-logout" class="dropdown-item danger-item">
+            <i data-lucide="log-out" class="item-icon"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Top Left: Deep Blue Background Logo -->
+      <div class="header-logo-wrapper">
+        <img src="assets/logo-header-blue.jpg" alt="Cyber Engineer مهندس سبراني" class="header-logo">
+      </div>
+
+    </div>
+  </header>
+
+  <!-- App Main Content Area -->
+  <main class="app-viewport">
+    <div class="content-container">
+
+      <!-- VIEW 1: Admin Login View -->
+      <section id="login-view" class="view-section active-view">
+        <div class="cyber-card login-card card-flip-animate">
+          <canvas class="particle-canvas"></canvas>
+          <div class="card-content">
+            <div class="card-header">
+              <div class="brand-sub">مهندس سبراني</div>
+              <h1 class="card-title">تسجيل الدخول</h1>
+            </div>
+
+            <form id="admin-login-form" class="cyber-form" novalidate onsubmit="event.preventDefault();">
+              <div class="form-group">
+                <label for="admin-name" class="form-label">
+                  <i data-lucide="user" class="field-icon"></i>
+                  اسم المستخدم <span class="req" aria-hidden="true">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input type="text" id="admin-name" class="cyber-input" placeholder="أدخل اسم المستخدم..." autocomplete="username" maxlength="50" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="admin-password" class="form-label">
+                  <i data-lucide="lock" class="field-icon"></i>
+                  كلمة المرور <span class="req" aria-hidden="true">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <input type="password" id="admin-password" class="cyber-input" placeholder="••••••••" autocomplete="current-password" maxlength="128" required>
+                </div>
+              </div>
+
+              <button type="button" id="btn-login" class="cyber-button primary-btn">
+                <span>تسجيل الدخول</span>
+                <i data-lucide="arrow-left" class="btn-icon"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: Options Dashboard View -->
+      <section id="dashboard-view" class="view-section">
+        <div class="options-grid">
+          
+          <!-- Option Card 1: Create Lecture -->
+          <div class="cyber-card option-card card-flip-animate delay-1" id="option-create-lecture">
+            <canvas class="particle-canvas"></canvas>
+            <div class="card-content">
+              <div class="option-icon-box">
+                <i data-lucide="plus-circle" class="option-icon"></i>
+              </div>
+              <div class="option-body">
+                <h3 class="option-title">إنشاء محاضرة جديدة</h3>
+                <p class="option-desc">إعداد مادة جديدة، اختيار القاعة والشعبة، وتحديد الوقت لبدء مسح الـ QR كود</p>
+              </div>
+              <button class="cyber-button option-btn" id="btn-select-create">
+                <span>بدء المحاضرة</span>
+                <i data-lucide="qr-code" class="btn-icon"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Option Card 2: Past Lectures -->
+          <div class="cyber-card option-card card-flip-animate delay-2" id="option-past-lectures">
+            <canvas class="particle-canvas"></canvas>
+            <div class="card-content">
+              <div class="option-icon-box secondary-icon-box">
+                <i data-lucide="history" class="option-icon"></i>
+              </div>
+              <div class="option-body">
+                <h3 class="option-title">المحاضرات السابقة</h3>
+                <p class="option-desc">استعراض تفاصيل المحاضرات المسجلة سابقاً، وقوائم إحصائيات حضور وغياب الطلاب</p>
+              </div>
+              <button class="cyber-button option-btn past-white-btn" id="btn-select-past">
+                <span>عرض السجلات</span>
+                <i data-lucide="file-text" class="btn-icon"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- VIEW 3: Create Lecture Form & Scanner View -->
+      <section id="create-lecture-view" class="view-section">
+        <div class="cyber-card form-card card-flip-animate">
+          <canvas class="particle-canvas"></canvas>
+          <div class="card-content">
+            <div class="view-title-bar">
+              <h2 class="view-title">إنشاء محاضرة جديدة</h2>
+              <button class="back-link-btn" id="btn-back-from-create">
+                <i data-lucide="arrow-right"></i>
+                <span>العودة للخيارات</span>
+              </button>
+            </div>
+
+            <form id="create-lecture-form" class="cyber-form">
+              
+              <!-- 1. Section Selection -->
+              <div class="form-group">
+                <label class="form-label">
+                  <i data-lucide="users" class="field-icon"></i>
+                  اختر الشعبة الحالية
+                </label>
+                <div class="section-pills-group">
+                  <label class="pill-label">
+                    <input type="radio" name="lecture-section" value="A" checked>
+                    <span class="pill-btn">شعبة A</span>
+                  </label>
+                  <label class="pill-label">
+                    <input type="radio" name="lecture-section" value="B">
+                    <span class="pill-btn">شعبة B</span>
+                  </label>
+                  <label class="pill-label">
+                    <input type="radio" name="lecture-section" value="C">
+                    <span class="pill-btn">شعبة C</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- 2. Subject Editable Input -->
+              <div class="form-group">
+                <label for="lecture-subject" class="form-label">
+                  <i data-lucide="book-open" class="field-icon"></i>
+                  المادة الدراسية <span class="req" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="lecture-subject" class="cyber-input" placeholder="أدخل اسم المادة الدراسية..." autocomplete="off" maxlength="100" required>
+              </div>
+
+              <!-- 3. Date & Time -->
+              <div class="form-group">
+                <label for="lecture-datetime" class="form-label">
+                  <i data-lucide="clock" class="field-icon"></i>
+                  التاريخ والوقت
+                </label>
+                <input type="text" id="lecture-datetime" class="cyber-input" readonly>
+              </div>
+
+              <!-- 4. Instructor Editable Input -->
+              <div class="form-group">
+                <label for="lecture-doctor" class="form-label">
+                  <i data-lucide="user-check" class="field-icon"></i>
+                  دكتور / محاضر المادة <span class="req" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="lecture-doctor" class="cyber-input" placeholder="أدخل اسم المحاضر / الدكتور..." autocomplete="off" maxlength="100" required>
+              </div>
+
+              <!-- 5. Guest Students Box -->
+              <div class="guest-section-box">
+                <div class="guest-header">
+                  <i data-lucide="user-plus" class="guest-icon"></i>
+                  <span>إضافة طالب استضافة (خارج الشعبة)</span>
+                </div>
+                
+                <div class="guest-inputs-row">
+                  <div class="form-group flex-2">
+                    <input type="text" id="guest-student-name" class="cyber-input" placeholder="اسم طالب الاستضافة..." autocomplete="off">
+                  </div>
+                  <div class="form-group flex-1">
+                    <select id="guest-from-section" class="cyber-input select-input">
+                      <option value="A" selected>من شعبة A</option>
+                      <option value="B">من شعبة B</option>
+                      <option value="C">من شعبة C</option>
+                    </select>
+                  </div>
+                  <div class="form-group flex-1">
+                    <select id="guest-to-section" class="cyber-input select-input">
+                      <option value="B" selected>إلى شعبة B</option>
+                      <option value="A">إلى شعبة A</option>
+                      <option value="C">إلى شعبة C</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="button" id="btn-add-guest-student" class="cyber-button guest-add-btn">
+                  <i data-lucide="user-check" class="btn-icon"></i>
+                  <span>إضافة طالب الاستضافة للقائمة</span>
+                </button>
+
+                <!-- Added Guest Students List Container -->
+                <div id="added-guest-students-list" class="added-guests-container">
+                  <!-- Dynamically populated added guest badges -->
+                </div>
+              </div>
+
+              <!-- 6. Attendance Counter & QR Scanner Box -->
+              <div class="scanner-section-box">
+                <div class="scanner-header-bar">
+                  <button type="button" id="btn-toggle-attendees" class="attendance-count-badge">
+                    <i data-lucide="users"></i>
+                    <span>الحضور الحالي:</span>
+                    <strong id="live-attendees-counter">0</strong>
+                    <span class="view-list-hint">(عرض القائمة)</span>
+                  </button>
+                </div>
+
+                <div class="scanner-viewfinder">
+                  <div id="qr-reader"></div>
+                  <div class="laser-scanner-line"></div>
+                  <div class="scanner-overlay-grid">
+                    <i data-lucide="qr-code" class="qr-target-icon"></i>
+                    <span class="scanner-status-text">وجّه الـ QR كود نحو الكاميرا</span>
+                  </div>
+                </div>
+
+                <button type="button" id="btn-scan-qr" class="cyber-button scan-trigger-btn">
+                  <i data-lucide="scan" class="btn-icon"></i>
+                  <span>مسح QR كود (تسجيل طالب من الشعبة)</span>
+                </button>
+              </div>
+
+              <!-- 7. Confirm Creation Button -->
+              <button type="button" id="btn-confirm-create" class="cyber-button primary-btn confirm-btn">
+                <span>تأكيد إنشاء المحاضرة</span>
+                <i data-lucide="check-circle" class="btn-icon"></i>
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: Past Lectures View -->
+      <section id="past-lectures-view" class="view-section">
+        <div class="past-lectures-container">
+          <div class="view-title-bar">
+            <h2 class="view-title">سجل المحاضرات السابقة</h2>
+            <button class="back-link-btn" id="btn-back-from-past">
+              <i data-lucide="arrow-right"></i>
+              <span>العودة للخيارات</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Square Cards Grid -->
+          <div id="past-lectures-grid" class="past-grid">
+            <!-- Rendered dynamically via JS -->
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL 1: Attended Students List Modal -->
+  <div id="attendees-modal" class="cyber-modal-overlay">
+    <div class="cyber-modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">قائمة الطلاب الحاضرين حالياً</h3>
+        <button class="modal-close-btn" id="btn-close-attendees-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="attendees-list-container" class="attendees-list">
+          <!-- Dynamically populated list -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Lecture Detail Modal -->
+  <div id="lecture-detail-modal" class="cyber-modal-overlay">
+    <div class="cyber-modal-card">
+      <div class="modal-header">
+        <h3 id="modal-lecture-title" class="modal-title">تفاصيل المحاضرة</h3>
+        <button class="modal-close-btn" id="btn-close-detail-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="lecture-detail-meta">
+          <div class="meta-item"><span class="meta-label">المادة:</span> <strong id="modal-lecture-subject"></strong></div>
+          <div class="meta-item"><span class="meta-label">الشعبة:</span> <strong id="modal-lecture-section"></strong></div>
+          <div class="meta-item"><span class="meta-label">التاريخ والوقت:</span> <span id="modal-lecture-date"></span></div>
+          <div class="meta-item"><span class="meta-label">المحاضر:</span> <span id="modal-lecture-doctor"></span></div>
+          <div class="meta-item"><span class="meta-label">إجمالي الحضور:</span> <span id="modal-lecture-count" class="badge-count"></span></div>
+        </div>
+        
+        <div class="sub-header-row">
+          <h4 class="sub-section-title">سجل الطلاب الحاضرين:</h4>
+        </div>
+
+        <!-- Real-time Search Input Bar -->
+        <div class="search-wrapper-box">
+          <i data-lucide="search" class="search-bar-icon"></i>
+          <input type="text" id="student-search-input" class="cyber-input search-bar-input" placeholder="ابحث عن اسم طالب، شعبة، أو استضافة..." autocomplete="off">
+        </div>
+
+        <div id="modal-lecture-students" class="attendees-list">
+          <!-- Dynamically populated & filtered -->
+        </div>
+
+        <!-- Action Buttons: Download Excel & Delete Lecture -->
+        <div class="modal-actions-group">
+          <button id="btn-export-excel" class="cyber-button excel-btn">
+            <i data-lucide="file-spreadsheet" class="btn-icon"></i>
+            <span>تنزيل الحضور (Excel)</span>
+          </button>
+          
+          <button id="btn-delete-lecture" class="cyber-button delete-btn">
+            <i data-lucide="trash-2" class="btn-icon"></i>
+            <span>حذف المحاضرة من السجل</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Custom Confirmation Dialog Modal -->
+  <div id="confirm-dialog-modal" class="cyber-modal-overlay">
+    <div class="cyber-modal-card confirm-modal-card">
+      <div class="modal-header">
+        <h3 id="confirm-modal-title" class="modal-title">تأكيد الإجراء</h3>
+        <button class="modal-close-btn" id="btn-close-confirm-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-modal-message" class="confirm-message">هل أنت تأكد من الاستمرار؟</p>
+        <div class="confirm-actions-group">
+          <button id="btn-confirm-accept" class="cyber-button danger-confirm-btn">
+            <span>تأكيد الإجراء</span>
+          </button>
+          <button id="btn-confirm-cancel" class="cyber-button secondary-btn">
+            <span>إلغاء</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D Card Flip Screen Transition Overlay -->
+  <div id="transition-overlay" class="transition-overlay">
+    <div class="fullscreen-perspective-wrapper">
+      <div class="transition-flip-card" id="transition-flip-card">
+        <div class="flip-card-face card-front">
+          <img src="assets/logo-blue.jpg" alt="Cyber Engineer مهندس سبراني" class="transition-logo-full">
+        </div>
+        <div class="flip-card-face card-back">
+          <img src="assets/logo-blue.jpg" alt="Cyber Engineer مهندس سبراني" class="transition-logo-full">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript App Engine -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="qr-scanner.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
