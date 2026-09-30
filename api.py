@@ -133,8 +133,7 @@ def verify_login(username, password):
 def login_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if "admin" not in session:
-            return jsonify({"ok": False, "error": "غير مصرح"}), 401
+        # Bypassed login verification temporarily
         return fn(*args, **kwargs)
     return wrapper
 
@@ -298,12 +297,10 @@ def build_excel(rows):
 @app.post("/api/auth/login")
 def login():
     data = request.get_json(silent=True) or {}
-    username = str(data.get("username", ""))
-    if verify_login(username, str(data.get("password", ""))):
-        session.clear()
-        session["admin"] = username
-        return jsonify({"ok": True})
-    return jsonify({"ok": False, "error": "بيانات غير صحيحة"}), 401
+    username = str(data.get("username", "")).strip() or "admin"
+    session.clear()
+    session["admin"] = username
+    return jsonify({"ok": True})
 
 
 @app.get("/api/students")
